@@ -9,7 +9,7 @@ import socket
 # export 'BEARER_TOKEN'='AAAAAAAAAAAAAAAAAAAAADFvmQEAAAAATJmGj%2BjxxR4u86%2FCdP40tp50RbA%3DV0XFEUwru2tQMD76iEVNd4ued1f54PvawXE1FOSqbQCMvqjVKv'
 bearer_token = os.environ.get("BEARER_TOKEN")
 
-
+#twitter API사용을 위한 Bearer_token을 통한 AUTH 인증
 def bearer_oauth(r):
     """
     Method required by bearer token authentication.
@@ -19,7 +19,7 @@ def bearer_oauth(r):
     r.headers["User-Agent"] = "v2FilteredStreamPython"
     return r
 
-
+# twitter 스트림에 포함된 규칙 목록을 반환
 def get_rules():
     response = requests.get(
         "https://api.twitter.com/2/tweets/search/stream/rules", auth=bearer_oauth
@@ -31,7 +31,7 @@ def get_rules():
     print(json.dumps(response.json()))
     return response.json()
 
-
+# 사용자 정의 규칙 사용을 위해 스트림에서 기존 규칙 삭제
 def delete_all_rules(rules):
     if rules is None or "data" not in rules:
         return None
@@ -51,9 +51,9 @@ def delete_all_rules(rules):
         )
     print(json.dumps(response.json()))
 
-
+# 초기화된 규칙에 원하는 규칙 내용 
 def set_rules(delete):
-    # value 값으로 
+    # value 값 설정을 통해 원하는 카테고리의 데이터만 수집가능
     sample_rules = [{'value':'Kpop'},]
     
     payload = {"add": sample_rules}
